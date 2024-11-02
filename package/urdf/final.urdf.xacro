@@ -1,0 +1,1249 @@
+<?xml version="1.0" ?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="robot_name" xmlns:xacro="https://ros.org/wiki/xacro">
+  <link name="dummy_link"></link>
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.049424767455595 0.159776046077624 -0.0225330574208343"
+        rpy="0 0 0" />
+      <mass
+        value="97.3498148193953" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="dummy_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="dummy_link"/>
+    <child link="base_link"/>
+  </joint>
+  <link
+    name="trailer_link">
+    <inertial>
+      <origin
+        xyz="1.36887565865829E-09 -0.428275192063916 0.124820007023853"
+        rpy="0 0 0" />
+      <mass
+        value="144.863514900965" />
+      <inertia
+        ixx="8.75187892270496"
+        ixy="-6.7392688993806E-08"
+        ixz="2.60518837931134E-08"
+        iyy="4.77819394822771"
+        iyz="0.0369239195510811"
+        izz="10.0353649026991" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/trailer_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/trailer_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="trailer"
+    type="revolute">
+    <origin
+      xyz="0.049394 -0.47166 -0.07368"
+      rpy="0.0049161 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="trailer_link" />
+    <axis
+      xyz="0 0.0049161 0.99999" />
+    <limit
+      lower="-0.5"
+      upper="0.5"
+      effort="10"
+      velocity="1" />
+  </joint>
+  <link
+    name="tfl_joint">
+    <inertial>
+      <origin
+        xyz="-0.0115503377760239 -0.0589738961525315 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.354020347722538" />
+      <inertia
+        ixx="0.00177986258613379"
+        ixy="-0.00046815655386338"
+        ixz="-8.24037057769342E-21"
+        iyy="0.00038394067981705"
+        iyz="-2.45061926057689E-20"
+        izz="0.00207609324776464" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/tfl_joint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/tfl_joint.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="trailer_front_left_joint"
+    type="fixed">
+    <origin
+      xyz="-0.1778 -0.18476 0.00090828"
+      rpy="1.5659 0 0" />
+    <parent
+      link="trailer_link" />
+    <child
+      link="tfl_joint" />
+    <axis
+      xyz="0 0 0" />
+    <limit
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="tfl_wheel">
+    <inertial>
+      <origin
+        xyz="-0.0381403827272626 -2.35401237210775E-05 1.95774908560709E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.07239476733727" />
+      <inertia
+        ixx="0.00663990806519678"
+        ixy="-2.12763175002072E-07"
+        ixz="5.49288166143123E-07"
+        iyy="0.00383767952128015"
+        iyz="1.65844886757789E-06"
+        izz="0.0038379033147871" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/tfl_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/tfl_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="trailer_front_left_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.05715 -0.17354 0"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="tfl_joint" />
+    <child
+      link="tfl_wheel" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      effort="10"
+      velocity="10" />
+  </joint>
+  <link
+    name="trl_joint">
+    <inertial>
+      <origin
+        xyz="-0.0115503377760239 -0.0589738961525315 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.354020347722538" />
+      <inertia
+        ixx="0.00177986258613379"
+        ixy="-0.000468156553863379"
+        ixz="5.08200184473862E-21"
+        iyy="0.000383940679817049"
+        iyz="-2.36790119932159E-20"
+        izz="0.00207609324776464" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/trl_joint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/trl_joint.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="trailer_rear_left_joint"
+    type="fixed">
+    <origin
+      xyz="-0.1778 -0.74355 0.0036554"
+      rpy="1.5659 0 0" />
+    <parent
+      link="trailer_link" />
+    <child
+      link="trl_joint" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="trl_wheel">
+    <inertial>
+      <origin
+        xyz="-0.0381403827272626 -2.35401237207444E-05 1.95774908561264E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.07239476733726" />
+      <inertia
+        ixx="0.00663990806519678"
+        ixy="-2.12763175013327E-07"
+        ixz="5.49288166143464E-07"
+        iyy="0.00383767952128014"
+        iyz="1.65844886757424E-06"
+        izz="0.0038379033147871" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/trl_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/trl_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="trailer_rear_left_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.05715 -0.17354 0"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="trl_joint" />
+    <child
+      link="trl_wheel" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      effort="10"
+      velocity="10" />
+  </joint>
+  <link
+    name="trr_joint">
+    <inertial>
+      <origin
+        xyz="-0.0115503377760239 -0.0589738961525315 2.22044604925031E-16"
+        rpy="0 0 0" />
+      <mass
+        value="0.354020347722538" />
+      <inertia
+        ixx="0.00177986258613379"
+        ixy="-0.000468156553863379"
+        ixz="2.07124477696873E-18"
+        iyy="0.00038394067981705"
+        iyz="3.3999703058764E-18"
+        izz="0.00207609324776464" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/trr_joint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/trr_joint.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="trailer_rear_right_joint"
+    type="fixed">
+    <origin
+      xyz="0.1778 -0.74355 0.0036554"
+      rpy="1.5757 0 3.1416" />
+    <parent
+      link="trailer_link" />
+    <child
+      link="trr_joint" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="trr_wheel">
+    <inertial>
+      <origin
+        xyz="0.0381403827272626 2.35401237211885E-05 1.95774908560986E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.07239476733727" />
+      <inertia
+        ixx="0.00663990806519679"
+        ixy="-2.1276317498298E-07"
+        ixz="-5.49288166142314E-07"
+        iyy="0.00383767952128015"
+        iyz="-1.65844886757162E-06"
+        izz="0.00383790331478711" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/trr_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/trr_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="trailer_rear_right_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.05715 -0.17354 0"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="trr_joint" />
+    <child
+      link="trr_wheel" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      effort="10"
+      velocity="10" />
+  </joint>
+  <link
+    name="tfr_joint">
+    <inertial>
+      <origin
+        xyz="-0.0115503377760239 -0.0589738961525315 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.354020347722538" />
+      <inertia
+        ixx="0.00177986258613379"
+        ixy="-0.000468156553863379"
+        ixz="-2.07625137487804E-18"
+        iyy="0.000383940679817049"
+        iyz="-3.4714377826133E-18"
+        izz="0.00207609324776463" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/tfr_joint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/tfr_joint.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="trailer_front_right_joint"
+    type="fixed">
+    <origin
+      xyz="0.1778 -0.18476 0.00090828"
+      rpy="1.5757 0 3.1416" />
+    <parent
+      link="trailer_link" />
+    <child
+      link="tfr_joint" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="tfr_wheel">
+    <inertial>
+      <origin
+        xyz="-0.0383462671685036 1.95774908560986E-05 2.35401237252963E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.07239476733726" />
+      <inertia
+        ixx="0.00663990806519678"
+        ixy="5.49288166143209E-07"
+        ixz="2.12763174983876E-07"
+        iyy="0.0038379033147871"
+        iyz="-1.65844886757647E-06"
+        izz="0.00383767952128015" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/tfr_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/tfr_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="trailer_front_right_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.056944 -0.17354 0"
+      rpy="0 0 0" />
+    <parent
+      link="tfr_joint" />
+    <child
+      link="tfr_wheel" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      effort="10"
+      velocity="10" />
+  </joint>
+  <link
+    name="rl_joint">
+    <inertial>
+      <origin
+        xyz="-0.0115503377760239 -0.101329525638876 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.354020347722538" />
+      <inertia
+        ixx="0.00177986258613379"
+        ixy="-0.00046815655386338"
+        ixz="-8.24037057769342E-21"
+        iyy="0.00038394067981705"
+        iyz="-2.45061926057689E-20"
+        izz="0.00207609324776464" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/rl_joint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/rl_joint.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_left_joint"
+    type="fixed">
+    <origin
+      xyz="-0.12843 -0.126 -0.031324"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="rl_joint" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="rl_wheel">
+    <inertial>
+      <origin
+        xyz="-0.0381403827272626 -2.3540123721022E-05 1.95774908561819E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.07239476733727" />
+      <inertia
+        ixx="0.00663990806519678"
+        ixy="-2.12763175003619E-07"
+        ixz="5.49288166143489E-07"
+        iyy="0.00383767952128015"
+        iyz="1.65844886757869E-06"
+        izz="0.0038379033147871" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/rl_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/rl_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_left_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.05715 -0.2159 0"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="rl_joint" />
+    <child
+      link="rl_wheel" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      effort="10"
+      velocity="10" />
+  </joint>
+  <link
+    name="fl_steer">
+    <inertial>
+      <origin
+        xyz="-0.0115503377760239 0 0.00960610384746852"
+        rpy="0 0 0" />
+      <mass
+        value="0.354020347722538" />
+      <inertia
+        ixx="0.00177986258613379"
+        ixy="-5.60146679899347E-21"
+        ixz="-0.000468156553863379"
+        iyy="0.00207609324776464"
+        iyz="2.35073491943817E-20"
+        izz="0.00038394067981705" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/fl_steer.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/fl_steer.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_left_steering"
+    type="revolute">
+    <origin
+      xyz="-0.12841 0.382 -0.14226"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="fl_steer" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-0.5"
+      upper="0.5"
+      effort="10"
+      velocity="1" />
+  </joint>
+  <link
+    name="fl_wheel">
+    <inertial>
+      <origin
+        xyz="-0.0381403827272626 -2.3540123721133E-05 1.95774908561541E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.07239476733727" />
+      <inertia
+        ixx="0.00663990806519679"
+        ixy="-2.12763175003269E-07"
+        ixz="5.49288166142892E-07"
+        iyy="0.00383767952128015"
+        iyz="1.65844886757719E-06"
+        izz="0.0038379033147871" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/fl_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/fl_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_left_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.05715 0 -0.10496"
+      rpy="0 0 0" />
+    <parent
+      link="fl_steer" />
+    <child
+      link="fl_wheel" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      effort="10"
+      velocity="10" />
+  </joint>
+  <link
+    name="rr_joint">
+    <inertial>
+      <origin
+        xyz="-0.0115503377760239 -0.101329525638876 8.32667268468867E-17"
+        rpy="0 0 0" />
+      <mass
+        value="0.354020347722538" />
+      <inertia
+        ixx="0.00177986258613379"
+        ixy="-0.00046815655386338"
+        ixz="2.07360118639069E-18"
+        iyy="0.00038394067981705"
+        iyz="3.2509139005068E-18"
+        izz="0.00207609324776464" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/rr_joint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/rr_joint.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_right_joint"
+    type="fixed">
+    <origin
+      xyz="0.22722 -0.126 -0.031324"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="rr_joint" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="rr_wheel">
+    <inertial>
+      <origin
+        xyz="0.0381403827272627 2.36360832513161E-05 1.94615297850198E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.07239476733727" />
+      <inertia
+        ixx="0.00663990806519679"
+        ixy="-2.1546093380164E-07"
+        ixz="-5.48235573544151E-07"
+        iyy="0.00383766322084019"
+        iyz="-1.65726853871075E-06"
+        izz="0.00383791961522707" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/rr_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/rr_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_right_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.05715 -0.2159 0"
+      rpy="1.5757 0 3.1416" />
+    <parent
+      link="rr_joint" />
+    <child
+      link="rr_wheel" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      effort="10"
+      velocity="10" />
+  </joint>
+  <link
+    name="fr_steer">
+    <inertial>
+      <origin
+        xyz="0.0115503377760238 5.55111512312578E-17 0.00960610384746852"
+        rpy="0 0 0" />
+      <mass
+        value="0.354020347722538" />
+      <inertia
+        ixx="0.00177986258613379"
+        ixy="-2.07328356244676E-18"
+        ixz="0.000468156553863379"
+        iyy="0.00207609324776464"
+        iyz="3.22425126972636E-18"
+        izz="0.00038394067981705" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/fr_steer.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/fr_steer.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_right_steering"
+    type="revolute">
+    <origin
+      xyz="0.22719 0.382 -0.14226"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="fr_steer" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-0.5"
+      upper="0.5"
+      effort="10"
+      velocity="1" />
+  </joint>
+  <link
+    name="fr_wheel">
+    <inertial>
+      <origin
+        xyz="0.0381403827272626 2.36360832513438E-05 1.94615297850753E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.07239476733727" />
+      <inertia
+        ixx="0.00663990806519679"
+        ixy="-2.15460933801079E-07"
+        ixz="-5.4823557354451E-07"
+        iyy="0.00383766322084019"
+        iyz="-1.65726853871034E-06"
+        izz="0.00383791961522707" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/fr_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/fr_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_right_wheel"
+    type="continuous">
+    <origin
+      xyz="0.05715 0 -0.10496"
+      rpy="0.0049161 0 0" />
+    <parent
+      link="fr_steer" />
+    <child
+      link="fr_wheel" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      effort="10"
+      velocity="10" />
+  </joint>
+  <link
+    name="lidar_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.102962959752611" />
+      <inertia
+        ixx="3.87494234831636E-05"
+        ixy="3.56852588093669E-53"
+        ixz="-1.28369185623042E-37"
+        iyy="3.87494234831636E-05"
+        iyz="9.63949905526873E-37"
+        izz="3.32137915569974E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/lidar_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final/meshes/lidar_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lidar_joint"
+    type="fixed">
+    <origin
+      xyz="0.049394 0.12767 0.15568"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="lidar_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <xacro:macro name="wheel_color">
+    <visual>
+    <material>
+        <ambient>0 0 0 1</ambient>
+        <diffuse>0 0 0 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <emissive>0 0 0 0</emissive>
+    </material>
+    </visual>
+  </xacro:macro>
+  <xacro:macro name="base_color">
+    <visual>
+    <material>
+        <ambient>0.0 0.0 0.3 1</ambient>
+        <diffuse>0.0 0.0 0.7 1</diffuse>
+        <specular>0.0 0.0 0.3 1</specular>
+        <emissive>0 0 0 0</emissive>
+    </material>
+    </visual>
+  </xacro:macro>
+  <xacro:macro name="trailer_color">
+    <visual>
+    <material>
+        <ambient>0.2 0.2 0.2 1</ambient>
+        <diffuse>0.4 0.4 0.4 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+        <emissive>0 0 0 0</emissive>
+    </material>
+    </visual>
+  </xacro:macro>
+  <gazebo reference="fl_wheel">
+    <xacro:wheel_color />
+  </gazebo>
+  <gazebo reference="fr_wheel">
+    <xacro:wheel_color />
+  </gazebo>
+  <gazebo reference="rl_wheel">
+    <xacro:wheel_color />
+  </gazebo>
+  <gazebo reference="rr_wheel">
+    <xacro:wheel_color />
+  </gazebo>
+  <gazebo reference="tfl_wheel">
+    <xacro:wheel_color />
+  </gazebo>
+  <gazebo reference="tfr_wheel">
+    <xacro:wheel_color />
+  </gazebo>
+  <gazebo reference="trl_wheel">
+    <xacro:wheel_color />
+  </gazebo>
+  <gazebo reference="trr_wheel">
+    <xacro:wheel_color />
+  </gazebo>
+  <gazebo reference="base_link">
+    <xacro:base_color />
+  </gazebo>
+  <gazebo reference="trailer_link">
+    <xacro:trailer_color />
+  </gazebo>
+  
+  <ros2_control name="GazeboSystem" type="system">
+  <hardware>
+     <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+  </hardware>
+ 
+  #Velocity Controllers
+  <joint name="front_left_wheel">
+      <command_interface name="velocity">
+          <param name="min">-1000.0</param>
+          <param name="max">1000.0</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="front_right_wheel">
+      <command_interface name="velocity">
+          <param name="min">-1000.0</param>
+          <param name="max">1000.0</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="rear_left_wheel">
+      <command_interface name="velocity">
+          <param name="min">-1000.0</param>
+          <param name="max">1000.0</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="rear_right_wheel">
+      <command_interface name="velocity">
+          <param name="min">-1000.0</param>
+          <param name="max">1000.0</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  
+  <joint name="trailer_front_left_wheel">
+      <command_interface name="velocity">
+          <param name="min">-1000.0</param>
+          <param name="max">1000.0</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="trailer_front_right_wheel">
+      <command_interface name="velocity">
+          <param name="min">-1000.0</param>
+          <param name="max">1000.0</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  
+  <joint name="trailer_rear_left_wheel">
+      <command_interface name="velocity">
+          <param name="min">-1000.0</param>
+          <param name="max">1000.0</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="trailer_rear_right_wheel">
+      <command_interface name="velocity">
+          <param name="min">-1000.0</param>
+          <param name="max">1000.0</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+  # Position Controller
+  <joint name="front_left_steering">
+      <command_interface name="position">
+          <param name="min">-0.5</param>
+          <param name="max">0.5</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="front_right_steering">
+      <command_interface name="position">
+          <param name="min">-0.5</param>
+          <param name="max">0.5</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="trailer">
+      <command_interface name="position">
+          <param name="min">-0.5</param>
+          <param name="max">0.5</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  </ros2_control>
+  
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <parameters>$(find final)/config/control.yaml</parameters>
+    </plugin>
+  </gazebo>
+  <gazebo reference="lidar_link">
+        <sensor name="laser" type="ray">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.3</min>
+                    <max>12</max>
+                </range>
+            </ray>
+            <plugin name="laser_controller" filename="libgazebo_ros_ray_sensor.so">
+                <ros>
+                    <argument>~/out:=scan</argument>
+                </ros>
+                <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>lidar_link</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+</robot>
