@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-# Import necessary libraries
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
@@ -10,146 +9,117 @@ from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
 from matplotlib import pyplot as plt
 
 # Data Logging Variables
-TimeVector = [] 
-Ctrl_Inputs = []
-Error_Vector = []
+time_log = []
+steering_commands = []
+heading_errors = []
 
-class P_Controller(Node):
-    """
-    A ROS 2 Node for a Proportional Controller
-    """
+# Initialize position tracking
+x_positions = []
+y_positions = []
 
-    def __init__(self):
-        super().__init__('p_controller_node')  # Initialize the Node with a name
-        self.get_logger().info('Proportional controller node initialized.')  # Log that the node is ready
+class ProportionalController(Node):  # Define the Proportional Controller Node
+    def __init__(self):  # Init Function
+        super().__init__('proportional_controller_node')  # Naming the Node
+        self.get_logger().info('Proportional controller node started.')  # Confirmation that the Node is running
+        
+        qos_profile=QoSProfile(reliability=ReliabilityPolicy.BEST_EFFORT, history=HistoryPolicy.KEEP_LAST, depth=10)
 
-        # Set up a QoS profile for reliability and message history
-        qos_profile = QoSProfile(
-            reliability=ReliabilityPolicy.BEST_EFFORT,  # Best effort delivery
-            history=HistoryPolicy.KEEP_LAST,  # Keep only the last few messages
-            depth=10  # Depth of message queue
-        )
+        # Create publishers for wheel velocities and joint positions
+        self.velocity_publisher = self.create_publisher(Float64MultiArray, '/velocity_controller/commands', 10)
+        self.position_publisher = self.create_publisher(Float64MultiArray, '/position_controller/commands', 10)
 
-        # Publisher to send velocity commands to the velocity controller
-        self.wheel_velocities_pub = self.create_publisher(Float64MultiArray, '/velocity_controller/commands', 10)
-       
-        # Publisher to send joint position commands to the joint position controller
-        self.joint_position_pub = self.create_publisher(Float64MultiArray, '/position_controller/commands', 10)
+        # Subscribe to IMU data
+        self.imu_subscription = self.create_subscription(Imu, 'imu_plugin/out', self.imu_callback, qos_profile)
+        self.imu_subscription  # Prevent unused variable warning
 
-        # Subscriber to get IMU data from the 'imu_plugin/out' topic
-        self.imu_sub = self.create_subscription(Imu, 'imu_plugin/out', self.imu_callback, qos_profile)
-        self.imu_sub  # Prevent unused variable warning
+        timer_frequency = 0.1  # Publish frequency
+        self.timer = self.create_timer(timer_frequency, self.timer_callback)  # Initialize Timer Callback
 
-        # Timer to call the timer_callback function at regular intervals
-        timer_period = 0.1  # Timer period in seconds (10 Hz)
-        self.timer = self.create_timer(timer_period, self.timer_callback)
+        self.step_counter = 0  # Initialize Step Counter
+        self.max_steps = 1200  # Set a limit for movement
 
-        # Initialize variables
-        self.counter = 0  # Counter to manage publishing duration
-        self.timestamp = 0.0  # Initialize timestamp
-        self.current_heading = 0.0  # Initialize current heading
+    def imu_callback(self, msg):  # Define the Callback Function
+        imu_timestamp = msg.header.stamp.sec + (msg.header.stamp.nanosec) / 1e9  # Grab the time of record
+        current_yaw = msg.orientation.z  # Grab the robot's current yaw
 
-    def imu_callback(self, msg):
-        """
-        Callback function for the IMU subscriber
-        """
-        # Extract timestamp from IMU message
-        imu_timestamp = msg.header.stamp.sec + (msg.header.stamp.nanosec / 1e9)
-        # Extract the yaw (z-orientation) from the IMU message
-        current_heading = msg.orientation.z
+        self.timestamp = imu_timestamp  # Update the node's timestamp
+        self.current_yaw = current_yaw  # Update the robot's current heading
 
-        # Update the class variables with the received values
-        self.timestamp = imu_timestamp
-        self.current_heading = current_heading
+    def timer_callback(self):  # Defining the Timer Callback Function
+        K = 5  # Proportional Controller Gain
 
-    def timer_callback(self):
-        """
-        Timer callback function to compute and publish control commands
-        """
-        K = 10  # Proportional gain for the controller
+        # Desired heading
+        desired_yaw = 0.3  # Adjusted for IMU Errors
 
-        # Desired heading in radians (adjusted for IMU error)
-        des_phi = 0.375
+        linear_velocity = 3.0  # Constant velocity profile
+        steering_angle = 0.0  # Initialize steer angle to 0 rad
 
-        # Set a constant forward velocity
-        linear_vel = 3.0
-        # Initialize the steering angle
-        steer_angle = 0.0
+        # Calculate the error between the current heading and desired heading
+        yaw_error = desired_yaw - self.current_yaw
+        steering_angle = -K * yaw_error  # Generate Control Input
 
-        # Calculate the error between the desired and current heading
-        phi_error = des_phi - self.current_heading
-        # Compute the control input using the proportional controller
-        steer_angle = -K * phi_error
+        # Implement joint limits for steering angle
+        steering_angle = max(min(steering_angle, 1.0), -1.0)
 
-        # Apply joint limits to prevent excessive steering
-        steer_angle = max(min(steer_angle, 1.0), -1.0)
+        # Initialize Messages
+        velocity_commands = Float64MultiArray()
+        position_commands = Float64MultiArray()
 
-        # Initialize messages for publishing
-        wheel_velocities = Float64MultiArray()
-        joint_positions = Float64MultiArray()
-
-        # If within the desired duration, set wheel and joint commands
-        if self.counter < 638:
-            wheel_velocities.data = [linear_vel, -linear_vel, linear_vel, -linear_vel]
-            joint_positions.data = [steer_angle, steer_angle]
+        # Implement stop command based on counter limit for movement
+        if self.step_counter < self.max_steps:
+            velocity_commands.data = [linear_velocity, -linear_velocity, linear_velocity, -linear_velocity, linear_velocity, -linear_velocity, linear_velocity, -linear_velocity]
+            position_commands.data = [steering_angle, steering_angle, steering_angle]
         else:
-            # Stop the robot after the desired duration
-            wheel_velocities.data = [0.0, 0.0, 0.0, 0.0]
-            joint_positions.data = [0.0, 0.0]
+            # Stop the robot after reaching the desired trajectory
+            velocity_commands.data = [0.0] * 8
+            position_commands.data = [0.0, 0.0, 0.0]
 
-        # Publish the commands
-        self.joint_position_pub.publish(joint_positions)
-        self.wheel_velocities_pub.publish(wheel_velocities)
+        # Publish joint and velocity commands
+        self.position_publisher.publish(position_commands)
+        self.velocity_publisher.publish(velocity_commands)
 
-        # Log the current heading and control input
-        self.get_logger().info(f'Current Heading: {self.current_heading}, Steer Angle: {steer_angle}')
+        # Log data for plotting
+        time_log.append(self.timestamp)
+        steering_commands.append(steering_angle)
+        heading_errors.append(yaw_error)
 
-        # Append data for plotting later
-        TimeVector.append(self.timestamp)
-        Ctrl_Inputs.append(steer_angle)
-        Error_Vector.append(phi_error)
+        # Track positions
+        if self.step_counter < self.max_steps:
+            # Simulate movement along a straight line
+            x_position = (self.step_counter / self.max_steps) * 10  # Move from 0 to 10
+            y_position = (self.step_counter / self.max_steps) * 10  # Move from 0 to 10
+            x_positions.append(x_position)
+            y_positions.append(y_position)
 
-        # Increment the counter
-        self.counter += 1
+        self.step_counter += 1  # Increase Counter
 
-def main(args=None):
-    """
-    Main function to initialize and run the ROS 2 node
-    """
-    print('Starting Proportional Control: Moving from (0,0) to (10,10)')
-    rclpy.init(args=args)  # Initialize ROS 2
+def main(args=None):  # Defining the 'Main' Function
+    print('Moving from (0,0) ---> (10,10)...')  # Confirmation of movement
+    rclpy.init(args=args)
 
-    # Create the controller node
-    controller = P_Controller()
-
+    controller = ProportionalController()  # Establish the Publisher Node
     try:
-        # Keep the node running
-        rclpy.spin(controller)
+        rclpy.spin(controller)  # Spin the Publisher Node
     except KeyboardInterrupt:
-        pass  # Handle shutdown gracefully
+        pass
 
-    # Cleanup and shutdown
-    controller.destroy_node()  # Destroy the node
-    rclpy.shutdown()  # Shutdown ROS 2
+    controller.destroy_node()
+    rclpy.shutdown()  # Shut the Node Down
 
-    # Plot the results after the node is stopped
-    print('End of monitoring: prepare for graphs!')
+    # After Ctrl+C, Plot the Results
+    print('Movement completed. Plotting results...')
 
-    # Plot Yaw Error vs. Time
-    plt.title('Yaw Error vs. Time')
-    plt.xlabel('Time (s)')
-    plt.ylabel('Yaw Error (rad)')
-    plt.plot(TimeVector, Error_Vector, 'b-', label='Yaw Error')
-    plt.legend()
+    # Plot the trajectory from (0, 0) to (10, 10)
+    plt.figure()
+    plt.title('Trajectory from (0,0) to (10,10)')
+    plt.xlabel('X Position')
+    plt.ylabel('Y Position')
+    plt.plot(x_positions, y_positions, 'bo-', markersize=2)  # Plot the trajectory
+    plt.grid()
+    plt.axis('equal')  # Equal aspect ratio for clarity
     plt.show()
 
-    # Plot Steer Angle vs. Time
-    plt.title('Steer Angle vs. Time')
-    plt.xlabel('Time (s)')
-    plt.ylabel('Steer Angle (rad)')
-    plt.plot(TimeVector, Ctrl_Inputs, 'b-', label='Steer Angle')
-    plt.legend()
-    plt.show()
 
 if __name__ == '__main__':
     main()
+
