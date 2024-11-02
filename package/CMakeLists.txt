@@ -25,11 +25,6 @@ src
 DESTINATION share/${PROJECT_NAME}/
 )
 
-install(
-    DIRECTORY include/final
-    DESTINATION include
-    )
-
 #launching src
 install(
   PROGRAMS
